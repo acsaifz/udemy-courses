@@ -1,5 +1,6 @@
 package hu.acsaifz.blogapp.service;
 
+import hu.acsaifz.blogapp.model.Post;
 import hu.acsaifz.blogapp.model.dto.post.CreatePostDto;
 import hu.acsaifz.blogapp.model.dto.post.PaginatedPostsDto;
 import hu.acsaifz.blogapp.model.dto.post.PostDto;
@@ -18,4 +19,6 @@ public interface PostService {
     PostDto updatePost(UpdatePostDto updatePostDto, long id);
 
     void deletePostById(long id);
+
+    Post findPostById(long id);
 }

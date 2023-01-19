@@ -16,6 +16,7 @@ import java.util.List;
 public interface PostMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "comments", ignore = true)
     Post toPost(CreatePostDto dto);
 
     PostDto toDto(Post post);
@@ -23,6 +24,7 @@ public interface PostMapper {
     List<PostDto> toDto(List<Post> posts);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "comments", ignore = true)
     void updatePostFromDto(UpdatePostDto dto, @MappingTarget Post post);
 
     @Mapping(target = "posts", source = "content")
