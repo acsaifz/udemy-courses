@@ -41,10 +41,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(UpdatePostDto updatePostDto, long id) {
-        Post post = findPostById(id);
-        postMapper.updatePostFromDto(updatePostDto, post);
-        post = postRepository.save(post);
-        return postMapper.toDto(post);
+        Post result = findPostById(id);
+        postMapper.updatePostFromDto(updatePostDto, result);
+        result = postRepository.save(result);
+        return postMapper.toDto(result);
+    }
+
+    @Override
+    public void deletePostById(long id) {
+        Post result = findPostById(id);
+        postRepository.delete(result);
     }
 
     private Post findPostById(long id){
