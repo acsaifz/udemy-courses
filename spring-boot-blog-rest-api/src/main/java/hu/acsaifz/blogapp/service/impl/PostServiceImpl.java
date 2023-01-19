@@ -1,5 +1,6 @@
 package hu.acsaifz.blogapp.service.impl;
 
+import hu.acsaifz.blogapp.exception.ResourceNotFoundException;
 import hu.acsaifz.blogapp.model.Post;
 import hu.acsaifz.blogapp.model.dto.CreatePostDto;
 import hu.acsaifz.blogapp.model.dto.PostDto;
@@ -28,6 +29,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> getAllPosts() {
         List<Post> result = postRepository.findAll();
+        return postMapper.toDto(result);
+    }
+
+    @Override
+    public PostDto getPostById(long id) {
+        Post result = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
         return postMapper.toDto(result);
     }
 }
