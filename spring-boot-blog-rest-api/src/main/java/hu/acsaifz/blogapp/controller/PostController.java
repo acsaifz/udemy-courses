@@ -41,7 +41,5 @@ public class PostController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePost(@PathVariable long id){
         postService.deletePostById(id);
-
     }
-
 }
