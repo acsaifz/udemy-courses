@@ -6,9 +6,12 @@ import hu.acsaifz.blogapp.model.dto.PostDto;
 import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
 import hu.acsaifz.blogapp.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static hu.acsaifz.blogapp.util.GlobalConstants.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,10 +26,12 @@ public class PostController {
 
     @GetMapping
     public PaginatedPostsDto getAllPosts(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+            @RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) Sort.Direction sortDir
             ){
-        return postService.getAllPosts(pageNo, pageSize);
+        return postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
     @GetMapping("/{id}")
