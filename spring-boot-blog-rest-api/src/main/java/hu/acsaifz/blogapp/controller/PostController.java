@@ -2,6 +2,7 @@ package hu.acsaifz.blogapp.controller;
 
 import hu.acsaifz.blogapp.model.dto.CreatePostDto;
 import hu.acsaifz.blogapp.model.dto.PostDto;
+import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
 import hu.acsaifz.blogapp.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,4 +31,10 @@ public class PostController {
     public ResponseEntity<PostDto> getPostById(@PathVariable long id){
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDto> updatePost(@PathVariable long id, @RequestBody UpdatePostDto updatePostDto){
+        return new ResponseEntity<>(postService.updatePost(updatePostDto, id), HttpStatus.OK);
+    }
+
 }

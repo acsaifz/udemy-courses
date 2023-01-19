@@ -4,6 +4,7 @@ import hu.acsaifz.blogapp.exception.ResourceNotFoundException;
 import hu.acsaifz.blogapp.model.Post;
 import hu.acsaifz.blogapp.model.dto.CreatePostDto;
 import hu.acsaifz.blogapp.model.dto.PostDto;
+import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
 import hu.acsaifz.blogapp.repository.PostRepository;
 import hu.acsaifz.blogapp.service.PostService;
 import hu.acsaifz.blogapp.service.mapper.PostMapper;
@@ -34,8 +35,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto getPostById(long id) {
-        Post result = postRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        Post result = findPostById(id);
         return postMapper.toDto(result);
+    }
+
+    @Override
+    public PostDto updatePost(UpdatePostDto updatePostDto, long id) {
+        Post post = findPostById(id);
+        postMapper.updatePostFromDto(updatePostDto, post);
+        post = postRepository.save(post);
+        return postMapper.toDto(post);
+    }
+
+    private Post findPostById(long id){
+        return postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
     }
 }
