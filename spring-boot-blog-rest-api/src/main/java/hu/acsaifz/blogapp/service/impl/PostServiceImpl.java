@@ -9,6 +9,9 @@ import hu.acsaifz.blogapp.repository.PostRepository;
 import hu.acsaifz.blogapp.service.PostService;
 import hu.acsaifz.blogapp.service.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +31,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> result = postRepository.findAll();
-        return postMapper.toDto(result);
+    public List<PostDto> getAllPosts(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Post> result = postRepository.findAll(pageable);
+        return postMapper.toDto(result.getContent());
     }
 
     @Override
