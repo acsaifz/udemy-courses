@@ -3,6 +3,7 @@ package hu.acsaifz.blogapp.service.impl;
 import hu.acsaifz.blogapp.exception.ResourceNotFoundException;
 import hu.acsaifz.blogapp.model.Post;
 import hu.acsaifz.blogapp.model.dto.CreatePostDto;
+import hu.acsaifz.blogapp.model.dto.PaginatedPostsDto;
 import hu.acsaifz.blogapp.model.dto.PostDto;
 import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
 import hu.acsaifz.blogapp.repository.PostRepository;
@@ -13,9 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -24,17 +22,16 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
 
     @Override
-    @Transactional
     public PostDto createPost(CreatePostDto createPostDto) {
         Post result = postRepository.save(postMapper.toPost(createPostDto));
         return postMapper.toDto(result);
     }
 
     @Override
-    public List<PostDto> getAllPosts(int pageNo, int pageSize) {
+    public PaginatedPostsDto getAllPosts(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Post> result = postRepository.findAll(pageable);
-        return postMapper.toDto(result.getContent());
+        return postMapper.toDto(result);
     }
 
     @Override

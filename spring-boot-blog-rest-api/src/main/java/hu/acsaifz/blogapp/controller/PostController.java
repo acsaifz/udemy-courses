@@ -1,6 +1,7 @@
 package hu.acsaifz.blogapp.controller;
 
 import hu.acsaifz.blogapp.model.dto.CreatePostDto;
+import hu.acsaifz.blogapp.model.dto.PaginatedPostsDto;
 import hu.acsaifz.blogapp.model.dto.PostDto;
 import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
 import hu.acsaifz.blogapp.service.PostService;
@@ -8,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,7 +22,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<PostDto> getAllPosts(
+    public PaginatedPostsDto getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
             ){
