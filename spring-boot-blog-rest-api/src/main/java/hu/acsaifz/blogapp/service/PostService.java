@@ -1,9 +1,9 @@
 package hu.acsaifz.blogapp.service;
 
-import hu.acsaifz.blogapp.model.dto.CreatePostDto;
-import hu.acsaifz.blogapp.model.dto.PaginatedPostsDto;
-import hu.acsaifz.blogapp.model.dto.PostDto;
-import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
+import hu.acsaifz.blogapp.model.dto.post.CreatePostDto;
+import hu.acsaifz.blogapp.model.dto.post.PaginatedPostsDto;
+import hu.acsaifz.blogapp.model.dto.post.PostDto;
+import hu.acsaifz.blogapp.model.dto.post.UpdatePostDto;
 import org.springframework.data.domain.Sort;
 
 

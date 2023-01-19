@@ -1,4 +1,4 @@
-package hu.acsaifz.blogapp.model.dto;
+package hu.acsaifz.blogapp.model.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

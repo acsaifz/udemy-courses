@@ -1,10 +1,10 @@
 package hu.acsaifz.blogapp.service.mapper;
 
 import hu.acsaifz.blogapp.model.Post;
-import hu.acsaifz.blogapp.model.dto.CreatePostDto;
-import hu.acsaifz.blogapp.model.dto.PaginatedPostsDto;
-import hu.acsaifz.blogapp.model.dto.PostDto;
-import hu.acsaifz.blogapp.model.dto.UpdatePostDto;
+import hu.acsaifz.blogapp.model.dto.post.CreatePostDto;
+import hu.acsaifz.blogapp.model.dto.post.PaginatedPostsDto;
+import hu.acsaifz.blogapp.model.dto.post.PostDto;
+import hu.acsaifz.blogapp.model.dto.post.UpdatePostDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
