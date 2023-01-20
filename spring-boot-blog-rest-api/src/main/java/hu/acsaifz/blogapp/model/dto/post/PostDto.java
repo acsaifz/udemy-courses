@@ -1,8 +1,11 @@
 package hu.acsaifz.blogapp.model.dto.post;
 
+import hu.acsaifz.blogapp.model.dto.comment.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,6 +15,5 @@ public class PostDto {
     private String title;
     private String description;
     private String content;
-
-
+    private Set<CommentDto> comments;
 }

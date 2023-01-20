@@ -19,6 +19,7 @@ public interface PostMapper {
     @Mapping(target = "comments", ignore = true)
     Post toPost(CreatePostDto dto);
 
+    @Mapping(target = "comments", source = "comments")
     PostDto toDto(Post post);
 
     List<PostDto> toDto(List<Post> posts);
