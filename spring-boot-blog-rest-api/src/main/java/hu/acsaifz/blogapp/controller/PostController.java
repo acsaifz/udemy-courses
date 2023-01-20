@@ -5,6 +5,7 @@ import hu.acsaifz.blogapp.model.dto.post.PaginatedPostsDto;
 import hu.acsaifz.blogapp.model.dto.post.PostDto;
 import hu.acsaifz.blogapp.model.dto.post.UpdatePostDto;
 import hu.acsaifz.blogapp.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody CreatePostDto createPostDto){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody CreatePostDto createPostDto){
         return new ResponseEntity<>(postService.createPost(createPostDto), HttpStatus.CREATED);
     }
 
@@ -40,7 +41,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@PathVariable long id, @RequestBody UpdatePostDto updatePostDto){
+    public ResponseEntity<PostDto> updatePost(@PathVariable long id, @Valid @RequestBody UpdatePostDto updatePostDto){
         return new ResponseEntity<>(postService.updatePost(updatePostDto, id), HttpStatus.OK);
     }
 

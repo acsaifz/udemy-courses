@@ -5,9 +5,7 @@ import hu.acsaifz.blogapp.model.dto.post.CreatePostDto;
 import hu.acsaifz.blogapp.model.dto.post.PaginatedPostsDto;
 import hu.acsaifz.blogapp.model.dto.post.PostDto;
 import hu.acsaifz.blogapp.model.dto.post.UpdatePostDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
