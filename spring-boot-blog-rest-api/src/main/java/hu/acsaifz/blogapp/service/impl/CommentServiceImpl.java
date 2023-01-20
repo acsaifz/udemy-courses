@@ -62,6 +62,12 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.toDto(commentRepository.save(result));
     }
 
+    @Override
+    public void deleteComment(long postId, long commentId) {
+        Comment result = validateAndGetComment(postId, commentId);
+        commentRepository.delete(result);
+    }
+
     private Comment validateAndGetComment(long postId, long commentId){
         Post actualPost = postService.findPostById(postId);
 
