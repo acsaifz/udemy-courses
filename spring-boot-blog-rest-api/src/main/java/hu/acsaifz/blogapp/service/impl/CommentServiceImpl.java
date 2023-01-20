@@ -6,6 +6,7 @@ import hu.acsaifz.blogapp.model.Comment;
 import hu.acsaifz.blogapp.model.Post;
 import hu.acsaifz.blogapp.model.dto.comment.CommentDto;
 import hu.acsaifz.blogapp.model.dto.comment.CreateCommentDto;
+import hu.acsaifz.blogapp.model.dto.comment.UpdateCommentDto;
 import hu.acsaifz.blogapp.repository.CommentRepository;
 import hu.acsaifz.blogapp.service.CommentService;
 import hu.acsaifz.blogapp.service.PostService;
@@ -41,6 +42,27 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto getCommentById(long postId, long commentId) {
+        Comment result = validateAndGetComment(postId, commentId);
+
+        return commentMapper.toDto(result);
+    }
+
+    @Override
+    public Comment findCommentById(long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", id));
+    }
+
+    @Override
+    public CommentDto updateComment(long postId, long commentId, UpdateCommentDto updateCommentDto) {
+        Comment result = validateAndGetComment(postId, commentId);
+
+        commentMapper.updateCommentFromDto(updateCommentDto, result);
+
+        return commentMapper.toDto(commentRepository.save(result));
+    }
+
+    private Comment validateAndGetComment(long postId, long commentId){
         Post actualPost = postService.findPostById(postId);
 
         Comment actualComment = findCommentById(commentId);
@@ -49,12 +71,6 @@ public class CommentServiceImpl implements CommentService {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not belong to this post.");
         }
 
-        return commentMapper.toDto(actualComment);
-    }
-
-    @Override
-    public Comment findCommentById(long id) {
-        return commentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", id));
+        return actualComment;
     }
 }
