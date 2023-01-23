@@ -1,6 +1,7 @@
 package hu.acsaifz.blogapp.exception;
 
 import org.springframework.http.*;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -59,5 +60,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setProperty("timestamp", LocalDateTime.now());
 
         return new ResponseEntity<>(problem, status);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ProblemDetail handleAccessDeniedException(AccessDeniedException exception){
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, exception.getMessage());
+
+        problem.setTitle("Forbidden");
+        problem.setType(URI.create("/access-denied"));
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
     }
 }
