@@ -1,6 +1,7 @@
 package hu.acsaifz.blogapp.controller;
 
 import hu.acsaifz.blogapp.model.dto.auth.LoginDto;
+import hu.acsaifz.blogapp.model.dto.auth.RegisterDto;
 import hu.acsaifz.blogapp.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,5 +20,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
         return new ResponseEntity<>(authService.login(loginDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
+        return new ResponseEntity<>(authService.register(registerDto), HttpStatus.CREATED);
     }
 }
