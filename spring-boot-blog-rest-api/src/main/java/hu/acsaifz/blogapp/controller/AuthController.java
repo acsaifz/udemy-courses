@@ -1,5 +1,6 @@
 package hu.acsaifz.blogapp.controller;
 
+import hu.acsaifz.blogapp.model.dto.auth.JwtTokenDto;
 import hu.acsaifz.blogapp.model.dto.auth.LoginDto;
 import hu.acsaifz.blogapp.model.dto.auth.RegisterDto;
 import hu.acsaifz.blogapp.service.AuthService;
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<JwtTokenDto> login(@RequestBody LoginDto loginDto){
         return new ResponseEntity<>(authService.login(loginDto), HttpStatus.OK);
     }
 

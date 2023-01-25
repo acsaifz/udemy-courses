@@ -2,9 +2,11 @@ package hu.acsaifz.blogapp.service.impl;
 
 import hu.acsaifz.blogapp.exception.BlogApiException;
 import hu.acsaifz.blogapp.model.User;
+import hu.acsaifz.blogapp.model.dto.auth.JwtTokenDto;
 import hu.acsaifz.blogapp.model.dto.auth.LoginDto;
 import hu.acsaifz.blogapp.model.dto.auth.RegisterDto;
 import hu.acsaifz.blogapp.service.AuthService;
+import hu.acsaifz.blogapp.service.JwtTokenService;
 import hu.acsaifz.blogapp.service.RoleService;
 import hu.acsaifz.blogapp.service.UserService;
 import hu.acsaifz.blogapp.service.mapper.UserMapper;
@@ -25,15 +27,16 @@ public class AuthServiceImpl implements AuthService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final JwtTokenService jwtTokenService;
 
     @Override
-    public String login(LoginDto loginDto) {
+    public JwtTokenDto login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "User has logged in successfully.";
+        return new JwtTokenDto(jwtTokenService.generateToken(authentication));
     }
 
     @Override
