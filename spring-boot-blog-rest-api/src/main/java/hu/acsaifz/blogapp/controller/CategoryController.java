@@ -52,4 +52,11 @@ public class CategoryController {
                 HttpStatus.OK
         );
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable long id){
+        categoryService.deleteCategoryById(id);
+    }
 }
