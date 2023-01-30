@@ -1,6 +1,7 @@
 package hu.acsaifz.blogapp.model.dto.post;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +19,6 @@ public class CreatePostDto {
     private String description;
     @NotEmpty(message = "Post content can not be empty.")
     private String content;
+    @Positive(message = "Should be greater than 0")
+    private long categoryId;
 }

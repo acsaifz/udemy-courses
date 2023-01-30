@@ -15,15 +15,18 @@ public interface PostMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "category", ignore = true)
     Post toPost(CreatePostDto dto);
 
     @Mapping(target = "comments", source = "comments")
+    @Mapping(target = "category", source = "category")
     PostDto toDto(Post post);
 
     List<PostDto> toDto(List<Post> posts);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "category", ignore = true)
     void updatePostFromDto(UpdatePostDto dto, @MappingTarget Post post);
 
     @Mapping(target = "posts", source = "content")

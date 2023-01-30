@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static hu.acsaifz.blogapp.util.GlobalConstants.*;
 
 @RequiredArgsConstructor
@@ -52,5 +54,10 @@ public class PostController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePost(@PathVariable long id){
         postService.deletePostById(id);
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<PostDto>> getAllPostsByCategoryId(@PathVariable long id){
+        return new ResponseEntity<>(postService.getAllPostsByCategoryId(id), HttpStatus.OK);
     }
 }

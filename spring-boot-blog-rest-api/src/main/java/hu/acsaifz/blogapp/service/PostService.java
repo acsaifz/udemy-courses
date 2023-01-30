@@ -7,6 +7,8 @@ import hu.acsaifz.blogapp.model.dto.post.PostDto;
 import hu.acsaifz.blogapp.model.dto.post.UpdatePostDto;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 
 public interface PostService {
 
@@ -21,4 +23,6 @@ public interface PostService {
     void deletePostById(long id);
 
     Post findPostById(long id);
+
+    List<PostDto> getAllPostsByCategoryId(long categoryId);
 }
