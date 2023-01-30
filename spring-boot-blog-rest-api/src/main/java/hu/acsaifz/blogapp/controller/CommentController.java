@@ -1,8 +1,8 @@
 package hu.acsaifz.blogapp.controller;
 
 import hu.acsaifz.blogapp.model.dto.comment.CommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.CreateCommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.UpdateCommentDto;
+import hu.acsaifz.blogapp.model.dto.comment.CommentCreateRequest;
+import hu.acsaifz.blogapp.model.dto.comment.CommentUpdateRequest;
 import hu.acsaifz.blogapp.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,11 @@ public class CommentController {
 
 
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<CommentDto> createComment(@PathVariable long postId, @Valid @RequestBody CreateCommentDto createCommentDto){
-        return new ResponseEntity<>(commentService.createComment(postId, createCommentDto), HttpStatus.OK);
+    public ResponseEntity<CommentDto> createComment(@PathVariable long postId, @Valid @RequestBody CommentCreateRequest commentCreateRequest){
+        return new ResponseEntity<>(
+                commentService.createComment(postId, commentCreateRequest),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/posts/{postId}/comments")
@@ -31,18 +34,24 @@ public class CommentController {
 
     @GetMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable long postId, @PathVariable long commentId){
-        return new ResponseEntity<>(commentService.getCommentById(postId, commentId), HttpStatus.OK);
+        return new ResponseEntity<>(
+                commentService.getCommentById(postId, commentId),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateCommentById(@PathVariable long postId, @PathVariable long commentId,
-                                                        @Valid @RequestBody UpdateCommentDto updateCommentDto){
-        return new ResponseEntity<>(commentService.updateComment(postId, commentId, updateCommentDto), HttpStatus.OK);
+                                                        @Valid @RequestBody CommentUpdateRequest commentUpdateRequest){
+        return new ResponseEntity<>(
+                commentService.updateCommentById(postId, commentId, commentUpdateRequest),
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@PathVariable long postId, @PathVariable long commentId){
-        commentService.deleteComment(postId, commentId);
+        commentService.deleteCommentById(postId, commentId);
     }
 }

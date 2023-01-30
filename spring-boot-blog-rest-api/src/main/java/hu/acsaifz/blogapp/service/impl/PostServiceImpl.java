@@ -1,12 +1,13 @@
 package hu.acsaifz.blogapp.service.impl;
 
+import hu.acsaifz.blogapp.exception.BlogApiException;
 import hu.acsaifz.blogapp.exception.ResourceNotFoundException;
 import hu.acsaifz.blogapp.model.Category;
 import hu.acsaifz.blogapp.model.Post;
-import hu.acsaifz.blogapp.model.dto.post.CreatePostDto;
+import hu.acsaifz.blogapp.model.dto.post.PostCreateRequest;
 import hu.acsaifz.blogapp.model.dto.post.PaginatedPostsDto;
 import hu.acsaifz.blogapp.model.dto.post.PostDto;
-import hu.acsaifz.blogapp.model.dto.post.UpdatePostDto;
+import hu.acsaifz.blogapp.model.dto.post.PostUpdateRequest;
 import hu.acsaifz.blogapp.repository.PostRepository;
 import hu.acsaifz.blogapp.service.CategoryService;
 import hu.acsaifz.blogapp.service.PostService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,9 +30,13 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
 
     @Override
-    public PostDto createPost(CreatePostDto createPostDto) {
-        Category category = categoryService.findCategoryById(createPostDto.getCategoryId());
-        Post post = postMapper.toPost(createPostDto);
+    public PostDto createPost(PostCreateRequest postCreateRequest) {
+        if (postRepository.existsPostByTitle(postCreateRequest.getTitle())){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Post title is already exists");
+        }
+
+        Category category = categoryService.findCategoryById(postCreateRequest.getCategoryId());
+        Post post = postMapper.toPost(postCreateRequest);
 
         post.setCategory(category);
 
@@ -54,10 +60,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatePost(UpdatePostDto updatePostDto, long id) {
-        Category category = categoryService.findCategoryById(updatePostDto.getCategoryId());
+    public PostDto updatePostById(PostUpdateRequest postUpdateRequest, long id) {
+        Category category = categoryService.findCategoryById(postUpdateRequest.getCategoryId());
         Post result = findPostById(id);
-        postMapper.updatePostFromDto(updatePostDto, result);
+        postMapper.updatePostFromDto(postUpdateRequest, result);
 
         if (!category.equals(result.getCategory())){
             result.setCategory(category);

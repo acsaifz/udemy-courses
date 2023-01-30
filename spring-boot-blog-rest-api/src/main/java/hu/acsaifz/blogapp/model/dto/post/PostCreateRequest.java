@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UpdatePostDto {
+public class PostCreateRequest {
     @NotEmpty(message = "Post title can not be empty.")
     @Size(min = 2, message = "Post title should have at least 2 characters.")
     private String title;

@@ -1,8 +1,8 @@
 package hu.acsaifz.blogapp.controller;
 
+import hu.acsaifz.blogapp.model.dto.category.CategoryCreateRequest;
 import hu.acsaifz.blogapp.model.dto.category.CategoryDto;
-import hu.acsaifz.blogapp.model.dto.category.CreateCategoryDto;
-import hu.acsaifz.blogapp.model.dto.category.UpdateCategoryDto;
+import hu.acsaifz.blogapp.model.dto.category.CategoryUpdateRequest;
 import hu.acsaifz.blogapp.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto){
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryCreateRequest categoryCreateRequest){
         return new ResponseEntity<>(
-                categoryService.createCategory(createCategoryDto),
+                categoryService.createCategory(categoryCreateRequest),
                 HttpStatus.CREATED
         );
     }
@@ -46,9 +46,9 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody UpdateCategoryDto updateCategoryDto, @PathVariable long id){
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryUpdateRequest categoryUpdateRequest, @PathVariable long id){
         return new ResponseEntity<>(
-                categoryService.updateCategory(updateCategoryDto, id),
+                categoryService.updateCategoryById(categoryUpdateRequest, id),
                 HttpStatus.OK
         );
     }

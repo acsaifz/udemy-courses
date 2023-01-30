@@ -5,8 +5,8 @@ import hu.acsaifz.blogapp.exception.ResourceNotFoundException;
 import hu.acsaifz.blogapp.model.Comment;
 import hu.acsaifz.blogapp.model.Post;
 import hu.acsaifz.blogapp.model.dto.comment.CommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.CreateCommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.UpdateCommentDto;
+import hu.acsaifz.blogapp.model.dto.comment.CommentCreateRequest;
+import hu.acsaifz.blogapp.model.dto.comment.CommentUpdateRequest;
 import hu.acsaifz.blogapp.repository.CommentRepository;
 import hu.acsaifz.blogapp.service.CommentService;
 import hu.acsaifz.blogapp.service.PostService;
@@ -25,8 +25,8 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
 
     @Override
-    public CommentDto createComment(long postId, CreateCommentDto createCommentDto) {
-        Comment comment = commentMapper.toComment(createCommentDto);
+    public CommentDto createComment(long postId, CommentCreateRequest commentCreateRequest) {
+        Comment comment = commentMapper.toComment(commentCreateRequest);
 
         Post actualPost = postService.findPostById(postId);
         actualPost.addComment(comment);
@@ -54,16 +54,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto updateComment(long postId, long commentId, UpdateCommentDto updateCommentDto) {
+    public CommentDto updateCommentById(long postId, long commentId, CommentUpdateRequest commentUpdateRequest) {
         Comment result = validateAndGetComment(postId, commentId);
 
-        commentMapper.updateCommentFromDto(updateCommentDto, result);
+        commentMapper.updateCommentFromDto(commentUpdateRequest, result);
 
         return commentMapper.toDto(commentRepository.save(result));
     }
 
     @Override
-    public void deleteComment(long postId, long commentId) {
+    public void deleteCommentById(long postId, long commentId) {
         Comment result = validateAndGetComment(postId, commentId);
         commentRepository.delete(result);
     }

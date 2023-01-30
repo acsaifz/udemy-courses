@@ -1,20 +1,20 @@
 package hu.acsaifz.blogapp.service;
 
 import hu.acsaifz.blogapp.model.Category;
+import hu.acsaifz.blogapp.model.dto.category.CategoryCreateRequest;
 import hu.acsaifz.blogapp.model.dto.category.CategoryDto;
-import hu.acsaifz.blogapp.model.dto.category.CreateCategoryDto;
-import hu.acsaifz.blogapp.model.dto.category.UpdateCategoryDto;
+import hu.acsaifz.blogapp.model.dto.category.CategoryUpdateRequest;
 
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDto createCategory(CreateCategoryDto createCategoryDto);
+    CategoryDto createCategory(CategoryCreateRequest categoryCreateRequest);
 
     CategoryDto getCategoryById(long id);
 
     List<CategoryDto> getAllCategories();
 
-    CategoryDto updateCategory(UpdateCategoryDto updateCategoryDto, long id);
+    CategoryDto updateCategoryById(CategoryUpdateRequest categoryUpdateRequest, long id);
 
     void deleteCategoryById(long id);
 

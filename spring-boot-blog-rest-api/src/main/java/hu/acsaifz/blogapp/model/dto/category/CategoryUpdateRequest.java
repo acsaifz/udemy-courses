@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UpdateCategoryDto {
+public class CategoryUpdateRequest {
     private String name;
     private String description;
 }

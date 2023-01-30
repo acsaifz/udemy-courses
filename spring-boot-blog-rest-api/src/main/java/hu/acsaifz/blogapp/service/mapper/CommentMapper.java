@@ -2,8 +2,8 @@ package hu.acsaifz.blogapp.service.mapper;
 
 import hu.acsaifz.blogapp.model.Comment;
 import hu.acsaifz.blogapp.model.dto.comment.CommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.CreateCommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.UpdateCommentDto;
+import hu.acsaifz.blogapp.model.dto.comment.CommentCreateRequest;
+import hu.acsaifz.blogapp.model.dto.comment.CommentUpdateRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -15,7 +15,7 @@ public interface CommentMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "post", ignore = true)
-    Comment toComment(CreateCommentDto dto);
+    Comment toComment(CommentCreateRequest dto);
 
     CommentDto toDto(Comment comment);
 
@@ -23,5 +23,5 @@ public interface CommentMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "post", ignore = true)
-    void updateCommentFromDto(UpdateCommentDto dto, @MappingTarget Comment comment);
+    void updateCommentFromDto(CommentUpdateRequest dto, @MappingTarget Comment comment);
 }

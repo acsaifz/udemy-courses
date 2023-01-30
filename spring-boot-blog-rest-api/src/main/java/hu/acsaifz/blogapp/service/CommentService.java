@@ -2,13 +2,13 @@ package hu.acsaifz.blogapp.service;
 
 import hu.acsaifz.blogapp.model.Comment;
 import hu.acsaifz.blogapp.model.dto.comment.CommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.CreateCommentDto;
-import hu.acsaifz.blogapp.model.dto.comment.UpdateCommentDto;
+import hu.acsaifz.blogapp.model.dto.comment.CommentCreateRequest;
+import hu.acsaifz.blogapp.model.dto.comment.CommentUpdateRequest;
 
 import java.util.List;
 
 public interface CommentService {
-    CommentDto createComment(long postId, CreateCommentDto createCommentDto);
+    CommentDto createComment(long postId, CommentCreateRequest commentCreateRequest);
 
     List<CommentDto> getCommentByPostId(long postId);
 
@@ -16,7 +16,7 @@ public interface CommentService {
 
     Comment findCommentById(long id);
 
-    CommentDto updateComment(long postId, long commentId, UpdateCommentDto updateCommentDto);
+    CommentDto updateCommentById(long postId, long commentId, CommentUpdateRequest commentUpdateRequest);
 
-    void deleteComment(long postId, long commentId);
+    void deleteCommentById(long postId, long commentId);
 }

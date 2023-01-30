@@ -1,11 +1,11 @@
 package hu.acsaifz.blogapp.service;
 
 import hu.acsaifz.blogapp.model.dto.auth.JwtTokenDto;
-import hu.acsaifz.blogapp.model.dto.auth.LoginDto;
-import hu.acsaifz.blogapp.model.dto.auth.RegisterDto;
+import hu.acsaifz.blogapp.model.dto.auth.LoginRequest;
+import hu.acsaifz.blogapp.model.dto.auth.RegistrationRequest;
 
 public interface AuthService {
-    JwtTokenDto login(LoginDto loginDto);
+    JwtTokenDto login(LoginRequest loginRequest);
 
-    String register(RegisterDto registerDto);
+    String register(RegistrationRequest registrationRequest);
 }

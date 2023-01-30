@@ -3,8 +3,8 @@ package hu.acsaifz.blogapp.service.impl;
 import hu.acsaifz.blogapp.exception.BlogApiException;
 import hu.acsaifz.blogapp.model.User;
 import hu.acsaifz.blogapp.model.dto.auth.JwtTokenDto;
-import hu.acsaifz.blogapp.model.dto.auth.LoginDto;
-import hu.acsaifz.blogapp.model.dto.auth.RegisterDto;
+import hu.acsaifz.blogapp.model.dto.auth.LoginRequest;
+import hu.acsaifz.blogapp.model.dto.auth.RegistrationRequest;
 import hu.acsaifz.blogapp.service.AuthService;
 import hu.acsaifz.blogapp.service.JwtTokenService;
 import hu.acsaifz.blogapp.service.RoleService;
@@ -30,9 +30,9 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenService jwtTokenService;
 
     @Override
-    public JwtTokenDto login(LoginDto loginDto) {
+    public JwtTokenDto login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -40,16 +40,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String register(RegisterDto registerDto) {
-        if(userService.existsUserByUsername(registerDto.getUsername())){
+    public String register(RegistrationRequest registrationRequest) {
+        if(userService.existsUserByUsername(registrationRequest.getUsername())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Username is already exists.");
         }
 
-        if (userService.existsUserByEmail(registerDto.getEmail())){
+        if (userService.existsUserByEmail(registrationRequest.getEmail())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Email is already exists.");
         }
 
-        User user = userMapper.toUser(registerDto);
+        User user = userMapper.toUser(registrationRequest);
         user.addRole(roleService.findRoleByName("ROLE_USER"));
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

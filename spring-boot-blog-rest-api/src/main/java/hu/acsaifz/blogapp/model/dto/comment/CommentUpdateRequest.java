@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CreateCommentDto {
+public class CommentUpdateRequest {
     @NotEmpty(message = "Name can not be empty")
     private String name;
     @NotEmpty(message = "Email can not be empty")

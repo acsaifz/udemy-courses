@@ -1,8 +1,8 @@
 package hu.acsaifz.blogapp.controller;
 
 import hu.acsaifz.blogapp.model.dto.auth.JwtTokenDto;
-import hu.acsaifz.blogapp.model.dto.auth.LoginDto;
-import hu.acsaifz.blogapp.model.dto.auth.RegisterDto;
+import hu.acsaifz.blogapp.model.dto.auth.LoginRequest;
+import hu.acsaifz.blogapp.model.dto.auth.RegistrationRequest;
 import hu.acsaifz.blogapp.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,12 +19,18 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtTokenDto> login(@RequestBody LoginDto loginDto){
-        return new ResponseEntity<>(authService.login(loginDto), HttpStatus.OK);
+    public ResponseEntity<JwtTokenDto> login(@RequestBody LoginRequest loginRequest){
+        return new ResponseEntity<>(
+                authService.login(loginRequest),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        return new ResponseEntity<>(authService.register(registerDto), HttpStatus.CREATED);
+    public ResponseEntity<String> register(@RequestBody RegistrationRequest registrationRequest){
+        return new ResponseEntity<>(
+                authService.register(registrationRequest),
+                HttpStatus.CREATED
+        );
     }
 }
