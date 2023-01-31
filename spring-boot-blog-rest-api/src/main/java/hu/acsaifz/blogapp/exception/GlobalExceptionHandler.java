@@ -2,6 +2,10 @@ package hu.acsaifz.blogapp.exception;
 
 import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.jwt.BadJwtException;
+import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +15,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -37,6 +43,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGlobalException(Exception exception){
+        exception.printStackTrace();
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
         problem.setTitle("Internal server error");
         problem.setProperty("timestamp", LocalDateTime.now());
@@ -68,6 +75,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         problem.setTitle("Forbidden");
         problem.setType(URI.create("/access-denied"));
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
+    }
+
+    @ExceptionHandler(JwtValidationException.class)
+    public ProblemDetail handleJwtValidationException(JwtValidationException exception){
+        List<OAuth2Error> errors = new ArrayList<>(exception.getErrors());
+        OAuth2Error error = errors.get(0);
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, error.getDescription());
+        problem.setTitle(error.getErrorCode());
+        problem.setType(URI.create("/unauthorized"));
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
+    }
+
+    @ExceptionHandler(BadJwtException.class)
+    public ProblemDetail handleBadJwtException(BadJwtException exception){
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        problem.setTitle(OAuth2ErrorCodes.INVALID_REQUEST);
+        problem.setType(URI.create("/" + OAuth2ErrorCodes.INVALID_REQUEST));
         problem.setProperty("timestamp", LocalDateTime.now());
         return problem;
     }
