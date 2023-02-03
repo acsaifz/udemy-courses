@@ -2,6 +2,7 @@ package hu.acsaifz.blogapp.exception;
 
 import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.jwt.BadJwtException;
@@ -95,6 +96,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
         problem.setTitle(OAuth2ErrorCodes.INVALID_REQUEST);
         problem.setType(URI.create("/" + OAuth2ErrorCodes.INVALID_REQUEST));
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ProblemDetail handleBadCredentialsException(BadCredentialsException exception){
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Wrong username or password");
+        problem.setTitle(exception.getMessage());
+        problem.setType(URI.create("/bad-credentials"));
         problem.setProperty("timestamp", LocalDateTime.now());
         return problem;
     }
